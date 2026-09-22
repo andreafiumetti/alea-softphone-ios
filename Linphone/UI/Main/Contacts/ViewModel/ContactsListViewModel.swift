@@ -140,7 +140,8 @@ class ContactsListViewModel: ObservableObject {
 							Log.info("\(ConversationForwardMessageViewModel.TAG) Conversation successfully created \(chatRoomId)")
 							
 							let model = ConversationModel(chatRoom: chatRoom)
-							DispatchQueue.main.async {
+							DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+								// ALEA: delay so PopupLoadingView.onDisappear navigates to chat
 								self.displayedConversation = model
 								SharedMainViewModel.shared.operationInProgress = false
 							}
@@ -158,7 +159,8 @@ class ContactsListViewModel: ObservableObject {
 						"\(ConversationForwardMessageViewModel.TAG) A 1-1 conversation between local account \(localAddress?.asStringUriOnly() ?? "") and remote \(remote.asStringUriOnly()) for given parameters already exists!"
 					)
 					let model = ConversationModel(chatRoom: existingChatRoom!)
-					DispatchQueue.main.async {
+					DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+						// ALEA: delay so PopupLoadingView.onDisappear navigates to chat
 						self.displayedConversation = model
 						SharedMainViewModel.shared.operationInProgress = false
 					}

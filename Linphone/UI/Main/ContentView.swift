@@ -1587,7 +1587,8 @@ struct ContentView: View {
                                         
 										sharedMainViewModel.displayedFriend = nil
                                         sharedMainViewModel.displayedCall = nil
-                                        sharedMainViewModel.changeIndexView(indexViewInt: 2)
+                                        // ALEA: conversations tab is index 1 (2 is dialpad)
+                                        sharedMainViewModel.changeIndexView(indexViewInt: 1)
                                         
                                         if let conversationsListVM = self.conversationsListViewModel {
                                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -1614,7 +1615,8 @@ struct ContentView: View {
 										
                                         sharedMainViewModel.displayedFriend = nil
                                         sharedMainViewModel.displayedCall = nil
-                                        sharedMainViewModel.changeIndexView(indexViewInt: 2)
+                                        // ALEA: conversations tab is index 1 (2 is dialpad)
+                                        sharedMainViewModel.changeIndexView(indexViewInt: 1)
                                         
                                         if let conversationsListVM = self.conversationsListViewModel {
                                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
