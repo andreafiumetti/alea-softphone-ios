@@ -191,12 +191,15 @@ struct ContactInnerFragment: View {
 											
 											Button(action: {
 												CoreContext.shared.doOnCoreQueue { core in
-													if contactAvatarModel.addresses.count == 1 && contactAvatarModel.phoneNumbersWithLabel.isEmpty {
+													// ALEA: prefer SIP address, skip picker
+													let aleaSip = AleaEnrollStore.hasSession() && !contactAvatarModel.address.isEmpty
+													if (contactAvatarModel.addresses.count == 1 && contactAvatarModel.phoneNumbersWithLabel.isEmpty) || aleaSip || (contactAvatarModel.addresses.count == 1) {
 														do {
-															let address = try Factory.Instance.createAddress(addr: contactAvatarModel.address)
+															let sipUri = contactAvatarModel.addresses.first ?? contactAvatarModel.address
+															let address = try Factory.Instance.createAddress(addr: sipUri)
 															contactsListViewModel.createOneToOneChatRoomWith(remote: address)
 														} catch {
-															Log.error("[ContactInnerFragment] unable to create address for a new outgoing call : \(contactAvatarModel.address) \(error) ")
+															Log.error("[ContactInnerFragment] unable to create address for chat : \(contactAvatarModel.address) \(error) ")
 														}
 													} else if contactAvatarModel.addresses.isEmpty && contactAvatarModel.phoneNumbersWithLabel.count == 1 {
 														if let firstPhoneNumbersWithLabel = contactAvatarModel.phoneNumbersWithLabel.first, let address = core.interpretUrl(url: firstPhoneNumbersWithLabel.phoneNumber, applyInternationalPrefix: LinphoneUtils.applyInternationalPrefix(core: core)) {

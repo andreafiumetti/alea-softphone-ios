@@ -509,7 +509,13 @@ class ConversationsListViewModel: ObservableObject {
 				chatParams.ephemeralLifetime = 0 // Make sure ephemeral is disabled by default
 				
 				let sameDomain = remote.domain == AppServices.corePreferences.defaultDomain && remote.domain == account!.params?.domain
-				if account!.params != nil && (account!.params!.instantMessagingEncryptionMandatory && sameDomain) {
+				let aleaEnrolled = AleaEnrollStore.hasSession()
+				// ALEA: force Basic SIP MESSAGE
+				if aleaEnrolled {
+					Log.info("\(ConversationsListViewModel.TAG) ALEA enrolled - creating SIP MESSAGE Basic conversation")
+					chatParams.backend = ChatRoom.Backend.Basic
+					params.securityLevel = Conference.SecurityLevel.None
+				} else if account!.params != nil && (account!.params!.instantMessagingEncryptionMandatory && sameDomain) {
 					Log.info("\(ConversationsListViewModel.TAG) Account is in secure mode & domain matches, creating an E2E encrypted conversation")
 					chatParams.backend = ChatRoom.Backend.FlexisipChat
 					params.securityLevel = Conference.SecurityLevel.EndToEnd

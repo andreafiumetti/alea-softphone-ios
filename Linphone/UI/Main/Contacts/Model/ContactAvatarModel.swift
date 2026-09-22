@@ -66,6 +66,13 @@ class ContactAvatarModel: ObservableObject, Identifiable {
 				friend.addresses.forEach { address in
 					addressesTmp.append(address.asStringUriOnly())
 				}
+				// Fallback: Friend.address set but addresses list empty (ALEA directory)
+				if addressesTmp.isEmpty, let primary = friend.address?.asStringUriOnly(), !primary.isEmpty {
+					addressesTmp.append(primary)
+				}
+			}
+			if addressesTmp.isEmpty && !address.isEmpty && address.lowercased().hasPrefix("sip:") {
+				addressesTmp.append(address)
 			}
 			var phoneNumbersWithLabelTmp: [(label: String, phoneNumber: String)] = []
 			if let friend = friend {

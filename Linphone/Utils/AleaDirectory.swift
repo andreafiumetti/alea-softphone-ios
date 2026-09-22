@@ -147,9 +147,14 @@ enum AleaDirectorySync {
             guard let address = core.interpretUrl(url: uri, applyInternationalPrefix: false) else { continue }
             try? address.setDisplayname(newValue: entry.name)
             guard let friend = try? core.createFriend() else { continue }
+            friend.edit()
             try? friend.setName(newValue: entry.name)
             friend.refKey = "alea:\(entry.extensionNumber)"
+            // setAddress alone may leave friend.addresses empty — ContactInnerFragment
+            // then shows "Scegli un numero o un indirizzo SIP" instead of opening chat.
             try? friend.setAddress(newValue: address)
+            friend.addAddress(address: address)
+            friend.done()
             applyPresence(core: core, friend: friend, online: entry.online)
             _ = list.addLocalFriend(linphoneFriend: friend)
             if entry.online { onlineCount += 1 }
