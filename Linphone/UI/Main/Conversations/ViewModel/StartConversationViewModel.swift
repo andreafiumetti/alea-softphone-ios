@@ -52,6 +52,9 @@ class StartConversationViewModel: ObservableObject {
 	}
 	
 	func updateGroupChatButtonVisibility(core: Core) {
+		// ALEA: hide Flexisip group chat
+		hideGroupChatButton = true
+		return
 		let hideGroupChat = !LinphoneUtils.isGroupChatAvailable(core: core)
 		DispatchQueue.main.async {
 			self.hideGroupChatButton = hideGroupChat

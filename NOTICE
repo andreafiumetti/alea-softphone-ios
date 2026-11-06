@@ -1,0 +1,22 @@
+ALEA Softphone — copyright and attribution
+==========================================
+
+ALEA Softphone is a derivative work based on Linphone.
+
+Original application: Linphone
+Original publisher: Belledonne Communications SARL
+https://www.linphone.org
+
+This derivative is distributed under the GNU General Public License v3.0
+(see LICENSE.txt). Source code for the version you received is available at:
+
+  https://github.com/andreafiumetti/alea-softphone-ios
+
+or upon request to support@aleaconnect.it for the corresponding release tag.
+
+Linphone name and logo are trademarks of Belledonne Communications.
+ALEA Softphone uses its own branding and does not provide the Linphone
+Free SIP Service (sip.linphone.org).
+
+Copyright notices of Belledonne Communications in source files are retained
+as required by GPLv3.

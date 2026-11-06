@@ -930,15 +930,20 @@ struct ContentView: View {
 												orientation: orientation
 											)
 										} else if sharedMainViewModel.indexView == 1 {
-											ConversationsContainer(
-												conversationsListViewModel: $conversationsListViewModel,
-												isShowStartConversationFragment: $isShowStartConversationFragment,
-												showLeaveConversationPopup: $showLeaveConversationPopup,
+											if AleaEnrollStore.hasSession() {
+												// ALEA: groups as conversations tab
+												AleaChatFragment()
+											} else {
+												ConversationsContainer(
+													conversationsListViewModel: $conversationsListViewModel,
+													isShowStartConversationFragment: $isShowStartConversationFragment,
+													showLeaveConversationPopup: $showLeaveConversationPopup,
 						   						showDeleteConversationPopup: $showDeleteConversationPopup,
 						   						showDeleteConversationHistoryPopup: $showDeleteConversationHistoryPopup,
-												text: $text,
-												orientation: orientation
-											)
+													text: $text,
+													orientation: orientation
+												)
+											}
 										} else if sharedMainViewModel.indexView == 2 {
 											AleaDialpadFragment(
 												showingDialer: $showingDialer,
@@ -1357,9 +1362,24 @@ struct ContentView: View {
 					}
 					
 					if let conversationsListVM = conversationsListViewModel, isShowStartConversationFragment {
-						StartConversationFragment(
-							isShowStartConversationFragment: $isShowStartConversationFragment
-						)
+						Group {
+							if AleaEnrollStore.hasSession() {
+								VStack(spacing: 0) {
+									HStack {
+										Button("Chiudi") { isShowStartConversationFragment = false }
+										Spacer()
+									}
+									.padding(.horizontal, 16)
+									.padding(.vertical, 10)
+									AleaChatFragment()
+								}
+								.background(Color(.systemBackground))
+							} else {
+								StartConversationFragment(
+									isShowStartConversationFragment: $isShowStartConversationFragment
+								)
+							}
+						}
 						.onAppear {
 							if focusedField {
 								withAnimation {
